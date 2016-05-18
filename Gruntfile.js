@@ -76,6 +76,8 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
+  grunt.registerTask('localRun', ['nodemon']);
+
   grunt.registerTask('build', [
   ]);
 
