@@ -1,8 +1,26 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
+    public: 'public/',
+    dist: 'dist/',    
+
     pkg: grunt.file.readJSON('package.json'),
+
     concat: {
+      js: {
+        options: {
+        // define a string to put between each file in the concatenated output
+          separator: ';'
+        },
+        // the files to concatenate
+        src: ['public/**/*.js'],
+        // the location of the resulting JS file
+        dest: 'dist/<%= pkg.name %>.js'
+      },
+      css: {
+        src: ['public/**/*.css'],
+        dest: 'dist/<%= pkg.name %>.css'
+      }
     },
 
     mochaTest: {
@@ -21,15 +39,28 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      options: {
+        // the banner is inserted at the top of the output
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+      },
+      dist: {
+        files: {
+          '<%=dist%><%= pkg.name %>.min.js': ['<%= concat.js.dest %>']
+        }
+      }
     },
 
     eslint: {
       target: [
-        // Add list of files to lint here
+        '*.js'
       ]
     },
 
     cssmin: {
+      minify: {
+        src: 'public/*.css',
+        dest: '<%=dist%><%= pkg.name %>.min.css'
+      }
     },
 
     watch: {
@@ -50,7 +81,11 @@ module.exports = function(grunt) {
     },
 
     shell: {
-      prodServer: {
+      // prodServer: {
+
+      // },
+      target: {
+        command: 'git add . && git commit -m"upload" && git push live master'
       }
     },
   });
@@ -76,22 +111,20 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
-  grunt.registerTask('localRun', ['nodemon']);
-
-  grunt.registerTask('build', [
+  grunt.registerTask('gitPush', [
+    'shell'
   ]);
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
-      // add your production server task here
+      grunt.task.run([ 'preDeploy', 'gitPush' ]);
     } else {
       grunt.task.run([ 'server-dev' ]);
     }
   });
 
-  grunt.registerTask('deploy', [
-    // add your deploy tasks here
+  grunt.registerTask('preDeploy', [
+    'concat', 'uglify', 'cssmin', 'eslint', 'mochaTest'
   ]);
-
 
 };
