@@ -13,7 +13,13 @@ module.exports = function(grunt) {
           separator: ';'
         },
         // the files to concatenate
-        src: ['public/**/*.js'],
+        src: ['public/client/**/*.js',
+         'public/lib/**/*.js', 
+        // '!public/lib/backbone.js',
+        // 'public/lib/backbone.js', 
+        // '!public/lib/handlebars.js',
+        // 'public/lib/handlebars.js',
+        ],
         // the location of the resulting JS file
         dest: 'dist/<%= pkg.name %>.js'
       },
@@ -102,6 +108,8 @@ module.exports = function(grunt) {
   grunt.registerTask('server-dev', function (target) {
     grunt.task.run([ 'nodemon', 'watch' ]);
   });
+
+  // Webpack has a tool to switch up HTML
 
   ////////////////////////////////////////////////////
   // Main grunt tasks

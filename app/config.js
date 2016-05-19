@@ -1,4 +1,8 @@
 var path = require('path');
+// var mongoose = require('mongoose');
+
+// var db = mongoose.connect('mongodb://localhost/test');
+
 var knex = require('knex')({
   client: 'sqlite3',
   connection: {
@@ -23,6 +27,18 @@ db.knex.schema.hasTable('urls').then(function(exists) {
     });
   }
 });
+
+// exports.Urls = mongoose.model('Urls', {
+//   url: String, 
+//   baseUrl: String, 
+//   code: String, 
+//   title: String, 
+//   visits: Number
+// });
+// exports.Users = mongoose.model('Users', {
+//   username: String, 
+//   password: String
+// });
 
 db.knex.schema.hasTable('users').then(function(exists) {
   if (!exists) {
