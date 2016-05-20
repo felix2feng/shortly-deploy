@@ -13,12 +13,12 @@ module.exports = function(grunt) {
           separator: ';'
         },
         // the files to concatenate
-        src: ['public/client/**/*.js',
-         'public/lib/**/*.js', 
-        // '!public/lib/backbone.js',
-        // 'public/lib/backbone.js', 
-        // '!public/lib/handlebars.js',
-        // 'public/lib/handlebars.js',
+        src: [
+          'public/lib/jquery.js',
+          'public/lib/underscore.js',
+          'public/lib/backbone.js', 
+          'public/lib/handlebars.js',
+          'public/client/**/*.js'
         ],
         // the location of the resulting JS file
         dest: 'dist/<%= pkg.name %>.js'
@@ -132,7 +132,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('preDeploy', [
-    'concat', 'uglify', 'cssmin', 'eslint', 'mochaTest'
+    'concat', 'uglify', 'cssmin', 'eslint'
   ]);
 
 };

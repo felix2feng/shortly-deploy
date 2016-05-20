@@ -8,14 +8,14 @@ db.once('open', function() {
   console.log('We\'re connected!');
 });
 
-db.Urls = mongoose.Schema({
+db.UrlSchema = mongoose.Schema({
   url: String, 
   baseUrl: String, 
   code: String, 
   title: String, 
   visits: Number
 });
-db.Users = mongoose.Schema({
+db.UserSchema = mongoose.Schema({
   username: String, 
   password: String
 });

@@ -10,16 +10,17 @@ db.UserSchema.methods.comparePassword = function(attemptedPassword, callback) {
   });
 };
 
-db.UserSchema.methods.hashPassword = function() {
+
+var User = mongoose.model('Users', db.UserSchema);
+
+db.UserSchema.pre('save', function(next) {
   var cipher = Promise.promisify(bcrypt.hash);
   return cipher(this.password, null, null).bind(this)
     .then(function(hash) {
       this.password = hash;
+      next();
     });
-};
-
-var User = mongoose.models('Users', db.UserSchema);
-
+});
 
 // var User = db.Model.extend({
 //   tableName: 'users',

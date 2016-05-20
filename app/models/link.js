@@ -2,14 +2,14 @@ var db = require('../config');
 var crypto = require('crypto');
 var mongoose = require('mongoose');
 
+var Link = mongoose.model('Urls', db.UrlSchema);
 
-db.UrlSchema.methods.initialize = function() {
+db.UrlSchema.pre('save', function(next) {
   var shasum = crypto.createHash('sha1');
-  shasum.update(this.urll);
+  shasum.update(this.url);
   this.code = shasum.digest('hex').slice(0, 5);
-};
-
-var Link = mongoose.models('Urls', db.UrlSchema);
+  next();
+});
 
 // var Link = db.Model.extend({
 //   tableName: 'urls',
